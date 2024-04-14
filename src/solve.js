@@ -1,27 +1,15 @@
 const { getWords, writeWords } = require('./utils');
-
 const filePath = './data/words.txt';
 
-// Board game
-const letters = ['D', 'U', 'M', 'N', 'E', 'A'];
-const center = 'G';
-
 async function solve(letters, center, validateGuesses = false) {
+  console.log(`Letters: [${letters.join(', ')}]`);
+  console.log(`Center: ${center}`);
   letters.push(center);
   const wordsArray = await getWords(filePath);
   const filteredWords = wordsArray.filter((word) =>
     isValidWord(word, letters, center)
   );
   return filteredWords;
-}
-
-async function solveAndPrint(letters, center, validateGuesses = false) {
-  const filteredWords = await solve(letters, center, validateGuesses);
-  if (validateGuesses) {
-    const validatedGuesses = await checkValidity(filteredWords);
-    writeWords(validatedGuesses, 'validatedGuesses');
-  }
-  writeWords(filteredWords, 'guesses');
 }
 
 function isValidWord(word, validLetters, center) {
@@ -59,4 +47,19 @@ async function checkValidity(guesses) {
   return validatedGuesses;
 }
 
-solveAndPrint(letters, center, true);
+async function solveAndPrint(letters, center, validateGuesses = false) {
+  const filteredWords = await solve(letters, center, validateGuesses);
+  if (validateGuesses) {
+    const validatedGuesses = await checkValidity(filteredWords);
+    writeWords(validatedGuesses, 'validatedGuesses');
+    return validatedGuesses;
+  }
+  writeWords(filteredWords, 'guesses');
+  return filteredWords;
+}
+
+// const letters = ['D', 'U', 'M', 'N', 'E', 'A'];
+// const center = 'G';
+// solveAndPrint(letters, center, true);
+
+module.exports = solve;
