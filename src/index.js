@@ -1,6 +1,6 @@
 const readline = require('readline');
 const solve = require('./solve');
-const { writeWords } = require('./utils');
+const { writeWords, writeSummary } = require('./utils');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -16,10 +16,10 @@ function getUserInput(prompt) {
 }
 
 async function main() {
-  let letters, centerLetter;
+  let letters, center;
   let awaitingInput = true;
   let interactiveMode = false;
-  let validateGusses = false;
+  let validateGuesses = false;
 
   while (awaitingInput) {
     const lettersInput = await getUserInput(
@@ -30,22 +30,28 @@ async function main() {
   }
   awaitingInput = true;
   while (awaitingInput) {
-    centerLetter = await getUserInput('Enter the center letter: ');
-    centerLetter = centerLetter.toUpperCase();
-    awaitingInput = !isValidInput(centerLetter, 'center');
+    center = await getUserInput('Enter the center letter: ');
+    center = center.toUpperCase();
+    awaitingInput = !isValidInput(center, 'center');
   }
 
   let response = await getUserInput('Validate guesses? (y/n): ');
   if (response.toUpperCase() === 'Y' || response.toUpperCase() === 'YES') {
-    validateGusses = true;
+    validateGuesses = true;
   }
 
   response = await getUserInput('Interactive mode? (y/n): ');
   if (response.toUpperCase() === 'Y' || response.toUpperCase() === 'YES') {
     interactiveMode = true;
   }
+
   console.log('-----------------------------');
-  const guesses = await solve(letters, centerLetter, validateGusses);
+  const { guesses, validatedGuesses } = await solve(
+    letters,
+    center,
+    validateGuesses
+  );
+
   if (interactiveMode) {
     for (const word of guesses) {
       console.log(word);
@@ -55,9 +61,12 @@ async function main() {
       }
     }
     console.log('-----------------------------');
-    await writeWords(guesses, 'validatedGuesses');
   }
 
+  if (validatedGuesses) {
+    await writeWords(validatedGuesses, 'validatedGuesses');
+  }
+  await writeSummary(center, letters, guesses, validatedGuesses);
   await writeWords(guesses, 'guesses');
 
   rl.close();

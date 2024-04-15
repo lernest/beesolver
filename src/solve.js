@@ -1,20 +1,19 @@
-const { getWords } = require('./utils');
+const { getWords, writeSummary } = require('./utils');
 const fileName = 'words.txt'; // File in ./data
 
 async function solve(letters, center, validateGuesses = false) {
   console.log(`Letters: [${letters.join(', ')}]`);
   console.log(`Center: ${center}`);
   console.log('-----------------------------');
-  letters.push(center);
   const wordsArray = await getWords(fileName);
-  const filteredWords = wordsArray.filter((word) =>
+  const guesses = wordsArray.filter((word) =>
     isValidWord(word, letters, center)
   );
+  let validatedGuesses;
   if (validateGuesses) {
-    const validatedGuesses = await checkDefinitions(filteredWords);
-    return validatedGuesses;
+    validatedGuesses = await checkDefinitions(guesses);
   }
-  return filteredWords;
+  return { guesses, validatedGuesses };
 }
 
 function isValidWord(word, validLetters, center) {
@@ -23,7 +22,7 @@ function isValidWord(word, validLetters, center) {
     return false;
   }
   for (const letter of wordArr) {
-    if (!validLetters.includes(letter)) {
+    if (![center, ...validLetters].includes(letter)) {
       return false;
     }
   }
@@ -49,7 +48,8 @@ async function checkDefinitions(guesses) {
   }
 
   const reductionPercentage =
-    ((guesses.length - validatedGuesses.length) / guesses.length) * 100;
+    ((guesses.length - validatedGuesses.length) / guesses.length).toFixed(4) *
+    100;
   console.log(`Validation summary:
   Input: ${guesses.length} words
   Output: ${validatedGuesses.length} words

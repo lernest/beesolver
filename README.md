@@ -16,6 +16,8 @@ The solver will produce a list of guesses for you.
 - If you select interactive mode, the words will be shown to you one at a time. Move to the next word by pressing `enter`.
 - Quit at any time using `CTRL-C`.
 - The words will be written to a file in the `output` directory when the program finishes running. The file pattern for output files is `guesses_MMDD_HHmm.txt`.
+- If 'validate' was selected, an additional file will be written called `validatedGuesses_MMDD_HHmm.txt`.
+- A summary row will be written to `./summary.csv`.
 
 ## About the word list
 
