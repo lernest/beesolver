@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-async function getWords(filePath) {
+async function getWords(fileName) {
   try {
+    const rootDir = path.resolve(__dirname, '../data/');
+    const filePath = path.join(rootDir, fileName);
     const data = await fs.promises.readFile(filePath, 'utf8');
     let wordsArray = data.split('\n');
     wordsArray = wordsArray.map((word) => word.trim().toUpperCase());

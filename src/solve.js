@@ -1,14 +1,19 @@
-const { getWords, writeWords } = require('./utils');
-const filePath = './data/words.txt';
+const { getWords } = require('./utils');
+const fileName = 'words.txt'; // File in ./data
 
 async function solve(letters, center, validateGuesses = false) {
   console.log(`Letters: [${letters.join(', ')}]`);
   console.log(`Center: ${center}`);
+  console.log('-----------------------------');
   letters.push(center);
-  const wordsArray = await getWords(filePath);
+  const wordsArray = await getWords(fileName);
   const filteredWords = wordsArray.filter((word) =>
     isValidWord(word, letters, center)
   );
+  if (validateGuesses) {
+    const validatedGuesses = await checkDefinitions(filteredWords);
+    return validatedGuesses;
+  }
   return filteredWords;
 }
 
@@ -25,7 +30,7 @@ function isValidWord(word, validLetters, center) {
   return true;
 }
 
-async function checkValidity(guesses) {
+async function checkDefinitions(guesses) {
   const validatedGuesses = [];
   const invalidGuesses = [];
   for (const guess of guesses) {
@@ -42,24 +47,15 @@ async function checkValidity(guesses) {
       invalidGuesses.push(guess);
     }
   }
-  console.log('Invalid words:');
-  console.log(invalidGuesses);
+
+  const reductionPercentage =
+    ((guesses.length - validatedGuesses.length) / guesses.length) * 100;
+  console.log(`Validation summary:
+  Input: ${guesses.length} words
+  Output: ${validatedGuesses.length} words
+  Reduced by ${reductionPercentage}%`);
+  console.log('-----------------------------');
   return validatedGuesses;
 }
-
-async function solveAndPrint(letters, center, validateGuesses = false) {
-  const filteredWords = await solve(letters, center, validateGuesses);
-  if (validateGuesses) {
-    const validatedGuesses = await checkValidity(filteredWords);
-    writeWords(validatedGuesses, 'validatedGuesses');
-    return validatedGuesses;
-  }
-  writeWords(filteredWords, 'guesses');
-  return filteredWords;
-}
-
-// const letters = ['D', 'U', 'M', 'N', 'E', 'A'];
-// const center = 'G';
-// solveAndPrint(letters, center, true);
 
 module.exports = solve;

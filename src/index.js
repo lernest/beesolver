@@ -44,19 +44,21 @@ async function main() {
   if (response.toUpperCase() === 'Y' || response.toUpperCase() === 'YES') {
     interactiveMode = true;
   }
-
   console.log('-----------------------------');
   const guesses = await solve(letters, centerLetter, validateGusses);
-  console.log('-----------------------------');
   if (interactiveMode) {
     for (const word of guesses) {
       console.log(word);
-      await new Promise((resolve) => {
-        rl.question('', resolve);
-      });
+      response = await getUserInput('');
+      if (response.toUpperCase() === 'Q') {
+        break;
+      }
     }
+    console.log('-----------------------------');
+    await writeWords(guesses, 'validatedGuesses');
   }
-  writeWords(guesses, 'guesses');
+
+  await writeWords(guesses, 'guesses');
 
   rl.close();
 }

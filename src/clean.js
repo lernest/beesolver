@@ -3,19 +3,21 @@ Take an input file of line separated text.
 Filter any entries with non alphabetic characters, including spaces
 Write output to a new file
 
-Try running: `node ./src/clean.js rawWords.txt`
+Use launch option or run `node ./src/clean.js rawWords.txt`
 */
 
 const { getWords, writeWords } = require('./utils.js');
 
-const filePath = process.argv[2];
-cleanInput(filePath);
+const fileName = 'words.txt';
+// const fileName = process.argv[2];
+cleanInput(fileName);
 
-async function cleanInput(filePath) {
-  const wordsArray = await getWords(filePath);
+async function cleanInput(fileName) {
+  const wordsArray = await getWords(fileName);
   const filteredWords = wordsArray.filter(isWordToKeep);
   const set = new Set(filteredWords);
   const deduplicatedArray = [...set];
+
   writeWords(deduplicatedArray, 'cleanOutput');
 }
 

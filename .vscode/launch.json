@@ -10,6 +10,13 @@
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/solve.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Clean",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/src/clean.js"
     }
   ]
 }
