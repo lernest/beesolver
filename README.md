@@ -10,9 +10,12 @@ The solver will produce a list of guesses for you.
 
 ## How to use
 
-Launch the CLI with `node ./src/index.js`
-You will be prompted to enter the 6 letters around the circle.
-You will then be prompted to enter the center letter. If you choose to validate words (by entering 'y' or 'yes' when prompted), each of the guesses will be verified against the dictionary API to ensure that it has a definition. If you select interactive mode, the words will be shown to you one at a time. Move to the next word by pressing `enter`. Quit at any time using `CTRL-C`. The words will be written to a file in the `output` directory when the program finishes running. The file pattern for output files is `guesses_MMDD_HHmm.txt`.
+- Launch the CLI with `node ./src/index.js`
+- You will be prompted to enter the 6 letters around the circle.
+- You will then be prompted to enter the center letter. If you choose to validate words (by entering 'y' or 'yes' when prompted), each of the guesses will be verified against the dictionary API to ensure that it has a definition.
+- If you select interactive mode, the words will be shown to you one at a time. Move to the next word by pressing `enter`.
+- Quit at any time using `CTRL-C`.
+- The words will be written to a file in the `output` directory when the program finishes running. The file pattern for output files is `guesses_MMDD_HHmm.txt`.
 
 ## About the word list
 
