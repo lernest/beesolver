@@ -1,6 +1,6 @@
 # BeeSolver - A Spelling Bee Solver
 
-A solver for [NYT Spelling Game](https://www.nytimes.com/puzzles/spelling-bee).
+A solver for [NYT Spelling Bee](https://www.nytimes.com/puzzles/spelling-bee).
 
 <img src="./SpellingBee.png" alt="Spelling Bee" width="300">
 
@@ -12,15 +12,16 @@ The solver will produce a list of guesses for you.
 
 - Launch the CLI with `node ./src/index.js`
 - You will be prompted to enter the 6 letters around the circle.
-- You will be prompted to enter the center letter. If you choose to validate words (by entering 'y' or 'yes' when prompted), each of the guesses will be verified against the dictionary API to ensure that it has a definition.
+- You will be prompted to enter the center letter. If you choose to validate words (by entering `y` or `yes` when prompted), each of the guesses will be verified against the dictionary API to ensure that it has a definition.
 - If you select interactive mode, the words will be shown to you one at a time. Move to the next word by pressing `enter`. Quit by entering `q`.
-- The words will be written to a file in the `output` directory when the program finishes running. The file pattern for output files is `guesses_MMDD_HHmm.txt`.
+- The words will be written to a file in the `./output` directory when the program finishes running. The file pattern for output files is `guesses_MMDD_HHmm.txt`.
 - If 'validate' was selected, an additional file will be written called `validatedGuesses_MMDD_HHmm.txt`.
+- Read the output and enter guesses into your game. Note that NYT is much more strict than the dictionary API and many guesses will not qualify.
 - A summary row will be written to `./summary.csv`.
 
 ## About the word list
 
-The word list was taken from the [freeDictionaryAPI repo](https://github.com/meetDeveloper/freeDictionaryAPI). The raw data is in `./data/rawWords.txt`. The following pre-processing steps were performed:
+The word list was taken from the [freeDictionaryAPI](https://github.com/meetDeveloper/freeDictionaryAPI) repo. The raw data is in `./data/rawWords.txt`. The following pre-processing steps were performed:
 
 - Filter out words contaning non-alphabetic characters
   - Keep: 'aargh', 'aam'
